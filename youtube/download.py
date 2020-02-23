@@ -6,7 +6,7 @@ import os
 def mp3(link):
     ydl_opts = {
     'format': 'bestaudio/best',
-    'outtmpl': 'files/%(title)s.%(ext)s',
+    'outtmpl': 'musics/%(title)s.%(ext)s',
     'postprocessors': [{
         'key': 'FFmpegExtractAudio',
         'preferredcodec': 'mp3',
