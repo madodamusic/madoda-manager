@@ -9,27 +9,29 @@ class Auth:
     def __init__(self, SCOPES, credentials):
         self.SCOPES = SCOPES
         self.credentials = credentials
+        self.creds = None
 
-
-    def auth(self):
-        self.cards = None
+    def __auth(self):
         # The file token.pickle stores the user's access and refresh tokens, and is
         # created automatically when the authorization flow completes for the first
         # time.
         if os.path.exists('token.pickle'):
             with open('token.pickle', 'rb') as token:
-                self.cards = pickle.load(token)
+                self.creds = pickle.load(token)
         # If there are no (valid) credentials available, let the user log in.
-        if not self.cards or not self.cards.valid:
-            if self.cards and self.cards.expired and self.cards.refresh_token:
-                self.cards.refresh(Request())
+        if not self.creds or not self.creds.valid:
+            if self.creds and self.creds.expired and self.creds.refresh_token:
+                self.creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
                     self.credentials, self.SCOPES)
-                self.cards = flow.run_local_server(port=0)
+                self.creds = flow.run_local_server(port=0)
             # Save the credentials for the next run
             with open('token.pickle', 'wb') as token:
-                pickle.dump(self.cards, token)
-            
-        return self.cards
+                pickle.dump(self.creds, token)
+
+        return self.creds
+
+    def getCreds(self):
+        return self.creds
 
