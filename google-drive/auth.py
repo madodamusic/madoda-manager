@@ -30,8 +30,7 @@ class Auth:
             with open('token.pickle', 'wb') as token:
                 pickle.dump(self.creds, token)
 
-        return self.creds
-
     def getCreds(self):
+        self.__auth()
         return self.creds
 
