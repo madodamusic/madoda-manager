@@ -1,6 +1,7 @@
-from youtube import download
-from tags import edit
+#from youtube import download
+#from tags import edit
+import json
 
-# download.mp3(['https://www.youtube.com/watch?v=bXwJHdpwtvs'])
-print(download.mp3(['https://www.youtube.com/watch?v=bXwJHdpwtvs']))
-edit.tags_by_file_name()
+cred = json.load(open("./google-drive/service.json", "r"))
+
+print(cred["type"])
