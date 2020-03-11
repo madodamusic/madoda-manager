@@ -69,8 +69,8 @@ class Upload:
         log_file_json = os.path.join(log_folder_path, log_name+".json")
         
         #make file that is suported by madoda-music theme
-        mdd_new_file_ids = new_files_id.replace(",", "&&")
-        mdd_new_file_ids = new_files_id.replace("'", "")
+        mdd_new_file_ids = str(new_files_id).replace(",", "&&")
+        mdd_new_file_ids = str(new_files_id).replace("'", "")
         
         if os.path.exists(log_folder_path):
             log_txt = open(log_file_text, "w")
@@ -95,11 +95,7 @@ class Upload:
         self.folder_manager.create()
         copy_folders_ids = self.folder_manager.getCopyFolderIds()
         files = os.listdir(self.musics_folder_path)
-        for file in files:
-            if file == files[-1]:
-                self._upload_multi_mp3(file, copy_folders_ids, True)
-            else:
-                self._upload_multi_mp3(file, copy_folders_ids)
+        self._upload_multi_mp3(file, copy_folders_ids)
         
         log_files = self._create_file_with_all_ids(self.new_files_id)
         for log_file in log_files:
