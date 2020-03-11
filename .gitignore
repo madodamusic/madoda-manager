@@ -4,3 +4,4 @@ service.json
 *Log.*
 token.pickle
 musics/*
+*/logs/*

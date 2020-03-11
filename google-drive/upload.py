@@ -9,9 +9,10 @@ from google.auth.transport.requests import Request
 from apiclient.http import MediaFileUpload
 
 import auth
+import folder_manager
 
 class Upload:
-    def __init__(self, main_drive_folder_id):
+    def __init__(self, main_drive_folder_id="1k3kHkKOgFQCcKXkBJeJsFGMj4GVPJAS9", musics_folder_path="main"):
         self.SCOPES = ['https://www.googleapis.com/auth/drive']
         self.credentials = os.path.join(os.getcwd(), "google-drive/service.json")
         self.auth = auth.Auth(self.SCOPES, self.credentials)
@@ -20,57 +21,91 @@ class Upload:
         self.service = build('drive', 'v3', credentials=self.creds)
 
         self.main_drive_folder_id = main_drive_folder_id
-        self.copy_folders_ids = []
-
-    def _ceackFolder(self, folder_name, parent_folder_id):
-        page_token = None
-        while True:
-            response = self.service.files().list(q="mimeType='application/vnd.google-apps.folder'",
-                                                spaces='drive',
-                                                fields='nextPageToken, files(id, name, parents)',
-                                                pageToken=page_token).execute()
-            for file in response.get('files', []):
-                # Process change
-                if file.get('name') == folder_name:
-                    if file.get('parents')[0] == parent_folder_id:
-                        return file.get('id')
-            page_token = response.get('nextPageToken', None)
-            if page_token is None:
-                break
-
-        return False
-
-
-    def musicFolader(self):
-        main_folder_name = str(datetime.datetime.today().year)
-        main_folder_id = self._ceackFolder(main_folder_name, self.main_drive_folder_id)
-        if(main_folder_id):
-            sub_folder_name = str(datetime.datetime.today().day)+"/"+str(datetime.datetime.today().month)
-            sub_folder_id = self._ceackFolder(sub_folder_name, main_folder_id)
-            if(sub_folder_id):
-                #create copy folders
-                pass
-            else:
-                file_metadata = {
-                    'name': 'Drive api',
-                    'mimeType': 'application/vnd.google-apps.folder'
-                }
-                file = self.service.files().create(body=file_metadata,
-                                                    fields='id').execute()
-                print('Folder ID: {}'.format(file.get('id')))
-                
-            
+        if musics_folder_path == "main":
+            self.musics_folder_path = os.path.join(os.getcwd(), "musics")
         else:
-            print("no such folder")
-        # file_metadata = {
-        #     'name': 'Drive api',
-        #     'mimeType': 'application/vnd.google-apps.folder'
-        # }
-        # file = self.service.files().create(body=file_metadata,
-        #                                     fields='id').execute()
-        # print('Folder ID: {}'.format(file.get('id')))
+            self.musics_folder_path = musics_folder_path
+
         
+        self.folder_manager = folder_manager.FolderManager(self.main_drive_folder_id)
+        self.copy_folders_ids = []
+        self.new_files_id = {}
+
+
+    def _upload_multi_mp3(self, file_name, parent_ids):
+        new_file_id = []
+        if file_name.endswith(".mp3"):
+            for parent_id in parent_ids:
+                upload_file = os.path.join(self.musics_folder_path, file_name)
+                file_metadata = {
+                    'name': file_name, 
+                    "parents": [parent_id]
+                }
+                media = MediaFileUpload(upload_file, mimetype='audio/mp3')
+                Dfile = self.service.files().create(body=file_metadata, media_body=media, fields='id').execute()
+                new_file_id.append(Dfile.get('id'))
+
+            self.new_files_id.setdefault(file_name, new_file_id)
+
+            return self.new_files_id
+        else:
+            return "error: not a mp3 file"
+
+    
+    def _upload_file(self, file, parent_id, mimetype= "text/plain"):
+        file_metadata = {
+            'name': file, 
+            "parents": [parent_id]
+        }
+        media = MediaFileUpload(file, mimetype=mimetype)
+        Dfile = self.service.files().create(body=file_metadata, media_body=media, fields='id').execute()
+        return Dfile.get('id')
+
+
+    def _create_file_with_all_ids(self, new_files_id):
+        log_folder_path = os.path.join(os.getcwd(), "google-drive/logs")
+        log_name = str(datetime.datetime.today())
+        log_file_text = os.path.join(log_folder_path, log_name+".txt")
+        log_file_json = os.path.join(log_folder_path, log_name+".json")
+        
+        #make file that is suported by madoda-music theme
+        mdd_new_file_ids = new_files_id.replace(",", "&&")
+        mdd_new_file_ids = new_files_id.replace("'", "")
+        
+        if os.path.exists(log_folder_path):
+            log_txt = open(log_file_text, "w")
+            log_json = open(log_file_json, "w")
+            
+            log_txt.write(str(mdd_new_file_ids))
+            log_json.write(str(new_files_id))
+        else:
+            os.makedirs(log_folder_path)
+            log_txt = open(log_file_text, "w")
+            log_json = open(log_file_json, "w")
+            
+            log_txt.write(str(mdd_new_file_ids))
+            log_json.write(str(new_files_id))
+        
+        log_txt.close()
+        log_json.close()
+        return [log_txt, log_json]
+    
+    def mp3(self):
+        self.new_files_id = {}
+        self.folder_manager.create()
+        copy_folders_ids = self.folder_manager.getCopyFolderIds()
+        files = os.listdir(self.musics_folder_path)
+        for file in files:
+            if file == files[-1]:
+                self._upload_multi_mp3(file, copy_folders_ids, True)
+            else:
+                self._upload_multi_mp3(file, copy_folders_ids)
+        
+        log_files = self._create_file_with_all_ids(self.new_files_id)
+        for log_file in log_files:
+            self._upload_file(log_file, self.folder_manager.getLogFolderID())
+        print(log_files[0])
         
 if __name__ == "__main__":
-    upload = Upload("1k3kHkKOgFQCcKXkBJeJsFGMj4GVPJAS9")
-    upload.musicFolader()
+    upload = Upload()
+    upload.mp3()
