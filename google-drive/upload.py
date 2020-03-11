@@ -95,7 +95,7 @@ class Upload:
         self.folder_manager.create()
         copy_folders_ids = self.folder_manager.getCopyFolderIds()
         files = os.listdir(self.musics_folder_path)
-        self._upload_multi_mp3(file, copy_folders_ids)
+        self._upload_multi_mp3(files, copy_folders_ids)
         
         log_files = self._create_file_with_all_ids(self.new_files_id)
         for log_file in log_files:
