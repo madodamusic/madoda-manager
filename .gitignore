@@ -5,3 +5,4 @@ service.json
 token.pickle
 musics/*
 */logs/*
+privatekey*

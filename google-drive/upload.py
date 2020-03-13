@@ -3,6 +3,7 @@ import pickle
 import os.path
 import os
 import datetime
+import json
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -54,7 +55,7 @@ class Upload:
     
     def _upload_file(self, file, parent_id, mimetype= "text/plain"):
         file_metadata = {
-            'name': file, 
+            'name': os.path.basename(file), 
             "parents": [parent_id]
         }
         media = MediaFileUpload(file, mimetype=mimetype)
@@ -69,33 +70,41 @@ class Upload:
         log_file_json = os.path.join(log_folder_path, log_name+".json")
         
         #make file that is suported by madoda-music theme
-        mdd_new_file_ids = str(new_files_id).replace(",", "&&")
-        mdd_new_file_ids = str(new_files_id).replace("'", "")
+        mdd_new_file_ids = str(new_files_id).replace("',", "&&\n")
+        mdd_new_file_ids = str(mdd_new_file_ids).replace("'", "")
+        mdd_new_file_ids = str(mdd_new_file_ids).replace(":", ":\n")
+        mdd_new_file_ids = str(mdd_new_file_ids).replace("],", "\n\n\n")
+        mdd_new_file_ids = str(mdd_new_file_ids).replace("{", "")
+        mdd_new_file_ids = str(mdd_new_file_ids).replace("[", "")
+        mdd_new_file_ids = str(mdd_new_file_ids).replace("]", "")
+        mdd_new_file_ids = str(mdd_new_file_ids).replace("}", "")
+        mdd_new_file_ids = str(mdd_new_file_ids).replace(" ", "")
         
         if os.path.exists(log_folder_path):
             log_txt = open(log_file_text, "w")
             log_json = open(log_file_json, "w")
             
             log_txt.write(str(mdd_new_file_ids))
-            log_json.write(str(new_files_id))
+            log_json.write(json.dumps(new_files_id))
         else:
             os.makedirs(log_folder_path)
             log_txt = open(log_file_text, "w")
             log_json = open(log_file_json, "w")
             
             log_txt.write(str(mdd_new_file_ids))
-            log_json.write(str(new_files_id))
+            log_json.write(json.dumps(new_files_id))
         
         log_txt.close()
         log_json.close()
-        return [log_txt, log_json]
+        return [log_file_text, log_file_json]
     
     def mp3(self):
         self.new_files_id = {}
         self.folder_manager.create()
         copy_folders_ids = self.folder_manager.getCopyFolderIds()
         files = os.listdir(self.musics_folder_path)
-        self._upload_multi_mp3(files, copy_folders_ids)
+        for file in files:
+            self._upload_multi_mp3(file, copy_folders_ids)
         
         log_files = self._create_file_with_all_ids(self.new_files_id)
         for log_file in log_files:
@@ -104,4 +113,5 @@ class Upload:
         
 if __name__ == "__main__":
     upload = Upload()
-    upload.mp3()
+    # upload.mp3()
+    upload._create_file_with_all_ids({"file1":['if1', 'dsd', 'dsjkjd'], "file2":['idww', 'dsdsd', 'asee']})
