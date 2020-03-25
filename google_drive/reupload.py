@@ -15,7 +15,7 @@ import os
 music_path = os.path.join(os.getcwd(), "musics")
 
 SCOPES = ['https://www.googleapis.com/auth/drive']
-SERVICE_ACCOUNT_FILE = './google-drive/service.json'
+SERVICE_ACCOUNT_FILE = './google_drive/service.json'
 
 creds = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
 

@@ -8,7 +8,7 @@ from .auth import Auth
 class FolderManager:
     def __init__(self, main_drive_folder_id, copy_folders_number = 6):
         self.SCOPES = ['https://www.googleapis.com/auth/drive']
-        self.credentials = os.path.join(os.getcwd(), "google-drive/service.json")
+        self.credentials = os.path.join(os.getcwd(), "google_drive/service.json")
         self.auth = Auth(self.SCOPES, self.credentials)
         self.creds = self.auth.getCreds()
 
@@ -102,4 +102,3 @@ class FolderManager:
 
     def getLogFolderID(self):
         return self.log_folder_id
-

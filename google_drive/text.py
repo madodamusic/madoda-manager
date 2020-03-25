@@ -9,7 +9,7 @@ from google.auth.transport.requests import Request
 from apiclient.http import MediaFileUpload
 
 SCOPES = ['https://www.googleapis.com/auth/drive']
-SERVICE_ACCOUNT_FILE = './google-drive/service.json'
+SERVICE_ACCOUNT_FILE = './google_drive/service.json'
 
 creds = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
 

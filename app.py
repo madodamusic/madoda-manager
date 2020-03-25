@@ -1,8 +1,8 @@
 #from youtube import download
 #from tags import edit
 import json
+from google_drive.upload import Upload
 
-file = open("download_URL.txt", 'r')
+upload = Upload()
 
-# print(str.split(str(file.read())
-print(str(file.read()).split())
+upload.mp3()
