@@ -2,6 +2,7 @@
 #from tags import edit
 import json
 
-cred = json.load(open("./google-drive/service.json", "r"))
+file = open("download_URL.txt", 'r')
 
-print(cred["type"])
+# print(str.split(str(file.read())
+print(str(file.read()).split())
