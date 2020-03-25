@@ -6,3 +6,4 @@ token.pickle
 musics/*
 */logs/*
 privatekey*
+*.pyc
