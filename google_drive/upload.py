@@ -13,7 +13,7 @@ from .auth import Auth
 from .folder_manager import FolderManager
 
 class Upload:
-    def __init__(self, main_drive_folder_id="1W4K7Mu9orxLrhnSmEUmZRet1kLr-PyI0", musics_folder_path="main"):
+    def __init__(self, main_drive_folder_id="12NYDA17jfMGgHJazCIrWwfiZpe1o9w9S", musics_folder_path="main"):
         self.SCOPES = ['https://www.googleapis.com/auth/drive']
         self.credentials = os.path.join(os.getcwd(), "google_drive/service.json")
         self.auth = Auth(self.SCOPES, self.credentials)
