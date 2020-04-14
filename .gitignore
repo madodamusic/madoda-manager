@@ -2,6 +2,7 @@ mdd-manager-env
 credentials.json
 service.json
 *Log.*
+*log.*
 token.pickle
 musics/*
 */logs/*

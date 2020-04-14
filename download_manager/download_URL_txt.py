@@ -2,7 +2,9 @@ import os
 class ManagerURL:
     def __init__(self, url_file="main"):
         if url_file == "main":
+            absFilePath = os.path.abspath(__file__)
             self.url_file_path = str(os.getcwd())+"/download_URL.txt"
+            # self.url_file_path = str(os.path.dirname(absFilePath))+"download_URL.txt"
         else:
             self.url_file_path = url_file
 
