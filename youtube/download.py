@@ -15,5 +15,8 @@ def mp3(links):
         }]
         }
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            ydl.download([link])
+            try:
+                ydl.download([link])
+            except RuntimeError:
+                print("Url Not found")
         

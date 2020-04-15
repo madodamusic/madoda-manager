@@ -25,7 +25,7 @@ class ManagerURL:
 
     def _generatUrls(self):
         file = self._openFile()
-        self.all_urls = str(file.read()).split()
+        self.all_urls = str(file.read()).split("\n")
         self._closeFile(file)
         return self.all_urls
 
