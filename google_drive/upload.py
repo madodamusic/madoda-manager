@@ -110,3 +110,5 @@ class Upload:
         for log_file in log_files:
             self._upload_file(log_file, self.folder_manager.getLogFolderID())
         
+        return log_files[1]
+        
