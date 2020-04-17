@@ -7,3 +7,4 @@ musics/*
 */logs/*
 privatekey*
 *.pyc
+.vscode
