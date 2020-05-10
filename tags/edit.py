@@ -2,7 +2,7 @@ import eyed3
 import os
 import pathlib
 
-def tags_by_file_name():
+def tags_by_file_name(fol):
     imagedata = open("./tags/image.jpg","rb").read()
     files = os.listdir("./musics/")
     for file in files:

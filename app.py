@@ -1,12 +1,10 @@
-from download_manager.download_URL_txt import ManagerURL
+import os
+from pathlib import Path
 
-manager_url = ManagerURL()
-urls = manager_url.getAllUrls()
-yurls = manager_url.getYoutubeUrls()
-wp_id = manager_url.getWP_ID("https://www.youtube.com/watch?v=dDwWE1hp8rY")
-print(urls)
-print("\n")
-print(yurls)
-print("\n")
-print(wp_id)
-print("done")
+class App:
+    def __init__(self):
+        self.main_path =  os.path.dirname(Path(__file__).absolute())
+
+
+app = App()
+print(app.main_path)

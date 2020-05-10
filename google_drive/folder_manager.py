@@ -3,13 +3,13 @@ import datetime
 from googleapiclient.discovery import build
 import os
 
-from .auth import Auth
+from auth import Auth
 
 class FolderManager:
     def __init__(self, main_drive_folder_id, copy_folders_number = 6):
         self.SCOPES = ['https://www.googleapis.com/auth/drive']
         self.credentials = os.path.join(os.getcwd(), "google_drive/service.json")
-        self.auth = Auth(self.SCOPES, self.credentials)
+        self.auth = Auth(self.SCOPES)
         self.creds = self.auth.getCreds()
 
         self.service = build('drive', 'v3', credentials=self.creds)
@@ -94,6 +94,17 @@ class FolderManager:
             self.log_folder_id = self._ceackFolder("logs", sub_folder_id)
             if not self.log_folder_id:
                 self.log_folder_id =  self.createNewFolder("logs", sub_folder_id)
+    
+    def fullAccount(self):
+        print("full acc")
+        full_accounts_file = open("./google_drive/logs/full_accounts.txt", "a")
+        res = self.service.about().get(fields = "user, storageQuota").execute()
+        accoundFreeSize = res["storageQuota"]["limit"] - res["storageQuota"]["usage"]
+        if (accoundFreeSize <= 11847054018):
+             print("account full")
+        else:
+            print("account free")
+
 
 
     
@@ -102,3 +113,9 @@ class FolderManager:
 
     def getLogFolderID(self):
         return self.log_folder_id
+
+
+if __name__ == "__main__":
+    fm = FolderManager("kkjkjk")
+    print("auth end")
+    fm.fullAccount()

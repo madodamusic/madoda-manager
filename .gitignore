@@ -3,8 +3,10 @@ credentials.json
 service.json
 *Log.*
 *log.*
+*rest_auth.json
 token.pickle
 musics/*
 */logs/*
 privatekey*
 *.pyc
+.vscode

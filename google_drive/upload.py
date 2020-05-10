@@ -15,7 +15,11 @@ from .folder_manager import FolderManager
 class Upload:
     def __init__(self, main_drive_folder_id="12NYDA17jfMGgHJazCIrWwfiZpe1o9w9S", musics_folder_path="main"):
         self.SCOPES = ['https://www.googleapis.com/auth/drive']
-        self.credentials = os.path.join(os.getcwd(), "google_drive/service.json")
+        try:
+            self.credentials = os.path.join(os.getcwd(), "google_drive/service.json")
+        except:
+            self.credentials = False
+            print("service.json not found")
         self.auth = Auth(self.SCOPES, self.credentials)
         self.creds = self.auth.getCreds()
 
@@ -68,6 +72,11 @@ class Upload:
         log_name = str(datetime.datetime.today())
         log_file_text = os.path.join(log_folder_path, log_name+".txt")
         log_file_json = os.path.join(log_folder_path, log_name+".json")
+        
+        #create file with all drive urls to use with madoda_getway
+        drive_urls = open("drive_urls.json", "w")
+        drive_urls.write(json.dumps(new_files_id))
+        drive_urls.close()
         
         #make file that is suported by madoda-music theme
         mdd_new_file_ids = str(new_files_id).replace("',", "&&\n")
