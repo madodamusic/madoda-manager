@@ -13,11 +13,14 @@ class YtDownload:
         self.all_music_path = []
         
         if url_file == "none":
-            self.save_folder = os.path.join(self.main_path ,"musics")
+            self.save_folder = os.path.join(str(self.main_path) ,"musics")
             self.manager_url = ManagerURL()
+            self.wp_id_log = os.path.join(str(self.main_path) ,"assets/wp_id_logs/main_log.json")
         else:
             self.manager_url = ManagerURL(url_file)
             folder_name = os.path.basename(url_file).replace(".txt", "")
+            self.wp_id_log = os.path.join(str(self.main_path) ,"assets/wp_id_logs/"+folder_name+".json")
+
             self.save_folder = Path(str(self.main_path)+"/musics/"+folder_name)
             if not self.save_folder.exists():
                 self.save_folder.mkdir()
@@ -33,7 +36,7 @@ class YtDownload:
 
 
     def create_WP_ID_log_file(self):
-        wp_id_log = open("wp_id_log.json", "w")
+        wp_id_log = open(self.wp_id_log, "w")
         wp_id_log.write(json.dumps(self.all_wp_ids))
         wp_id_log.close()
 
@@ -57,7 +60,7 @@ class YtDownload:
                         meta = ydl.extract_info(link, download=True)
                         self.set_WP_ID(link, meta['title'])
                     self.create_WP_ID_log_file()
-                    return self.save_folder
+                    return {"save_folder":str(self.save_folder), "wp_id_log":self.wp_id_log}
                 break;
             except youtube_dl.utils.DownloadError:
                 pass

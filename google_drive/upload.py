@@ -1,6 +1,7 @@
 from __future__ import print_function
 import pickle
 import os.path
+from pathlib import Path
 import os
 import datetime
 import json
@@ -14,12 +15,14 @@ from .folder_manager import FolderManager
 
 class Upload:
     def __init__(self, main_drive_folder_id="12NYDA17jfMGgHJazCIrWwfiZpe1o9w9S", musics_folder_path="main"):
+        self.main_path = Path(__file__).parent.parent.absolute()
         self.SCOPES = ['https://www.googleapis.com/auth/drive']
         try:
-            self.credentials = os.path.join(os.getcwd(), "google_drive/service.json")
+            self.credentials = os.path.join(str(self.main_path), "google_drive/service.json")
         except:
             self.credentials = False
             print("service.json not found")
+            
         self.auth = Auth(self.SCOPES, self.credentials)
         self.creds = self.auth.getCreds()
 

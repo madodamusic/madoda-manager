@@ -1,5 +1,6 @@
 mdd-manager-env
-credentials.json
+*credentials.json
+*client_secrets_file.json
 service.json
 *Log.*
 *log.*
@@ -10,3 +11,4 @@ musics/*
 privatekey*
 *.pyc
 .vscode
+assets/*

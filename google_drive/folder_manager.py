@@ -2,11 +2,14 @@ from __future__ import print_function
 import datetime
 from googleapiclient.discovery import build
 import os
+from pathlib import Path
+
 
 from auth import Auth
 
 class FolderManager:
     def __init__(self, main_drive_folder_id, copy_folders_number = 6):
+        self.main_path = Path(__file__).parent.parent.absolute()
         self.SCOPES = ['https://www.googleapis.com/auth/drive']
         self.credentials = os.path.join(os.getcwd(), "google_drive/service.json")
         self.auth = Auth(self.SCOPES)
@@ -95,17 +98,6 @@ class FolderManager:
             if not self.log_folder_id:
                 self.log_folder_id =  self.createNewFolder("logs", sub_folder_id)
     
-    def fullAccount(self):
-        print("full acc")
-        full_accounts_file = open("./google_drive/logs/full_accounts.txt", "a")
-        res = self.service.about().get(fields = "user, storageQuota").execute()
-        accoundFreeSize = res["storageQuota"]["limit"] - res["storageQuota"]["usage"]
-        if (accoundFreeSize <= 11847054018):
-             print("account full")
-        else:
-            print("account free")
-
-
 
     
     def getCopyFolderIds(self):

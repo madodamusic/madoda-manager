@@ -6,6 +6,7 @@ import os
 import array
 from pathlib import Path
 from download_manager.youtube import YtDownload
+from google_drive.upload import Upload as gdUpload
 # from download_manager.download_URL_txt import ManagerURL
 
 class WpMManager:
@@ -24,7 +25,7 @@ class WpMManager:
         
         file_name = str(datetime.datetime.today()).replace(" ", "").replace(":","_").replace("-","_").replace(".","_") + dif_name+".txt"
         
-        wp_links_path = os.path.join(self.app.main_path, "wp_download_links") 
+        wp_links_path = os.path.join(self.app.main_path, "assets/wp_download_links") 
         self.wp_link_file = os.path.join(wp_links_path, file_name)
         
         file = open(self.wp_link_file, "w")
@@ -54,7 +55,7 @@ class WpMManager:
         urls_file = self.get_links_file()
         # urls_file = urls_file.replace(".txt", "")
         yt_download = YtDownload(urls_file)
-        print(yt_download.mp3())
+        yt_data = yt_download.mp3()
         path = Path(urls_file)
         print(os.path.basename(path).replace(".txt", ""))
         

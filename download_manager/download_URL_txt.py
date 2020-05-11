@@ -1,9 +1,10 @@
 import os
+from pathlib import Path
 class ManagerURL:
     def __init__(self, url_file="main"):
         if url_file == "main":
-            absFilePath = os.path.abspath(__file__)
-            self.url_file_path = str(os.getcwd())+"/download_URL.txt"
+            self.main_path = Path(__file__).parent.parent.absolute()
+            self.url_file_path = str(sef.main_path)+"/download_URL.txt"
             # self.url_file_path = str(os.path.dirname(absFilePath))+"download_URL.txt"
         else:
             self.url_file_path = url_file

@@ -1,3 +1,3 @@
-https://www.youtube.com/watch?v=BTgCJ-m4u3o wp_id=676
-https://www.youtube.com/watch?v=dDwWE1hp8rY wp_id=777 
+https://www.youtube.com/watch?v=BTgCJ-m4u3o wp_id=676 -t {"artist":"key-g",'title':"fllow"}
+https://www.youtube.com/watch?v=dDwWE1hp8rY wp_id=777 -t {"artist":""}
 https://www.youtube.com/watch?v=kP2lkoqLx8A
