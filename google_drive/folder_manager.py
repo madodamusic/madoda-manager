@@ -11,7 +11,7 @@ class FolderManager:
     def __init__(self, main_drive_folder_id, copy_folders_number = 6):
         self.main_path = Path(__file__).parent.parent.absolute()
         self.SCOPES = ['https://www.googleapis.com/auth/drive']
-        self.credentials = os.path.join(os.getcwd(), "google_drive/service.json")
+        self.credentials = os.path.join(str(self.main_path), "google_drive/service.json")
         self.auth = Auth(self.SCOPES)
         self.creds = self.auth.getCreds()
 

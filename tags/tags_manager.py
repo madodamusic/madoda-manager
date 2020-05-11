@@ -28,10 +28,11 @@ class TagsManager:
                     tag_index = text_a.index("-t")+1
                     if tag_index < len(text_a):
                         tags = text_a[tag_index]
+                        tags = json.loads(tags)
                     else:
                         return -1
-                
-        return json.loads(tags)
+    
+        return tags
 
 if __name__ == "__main__":
     tm = TagsManager()

@@ -29,10 +29,12 @@ class Upload:
         self.service = build('drive', 'v3', credentials=self.creds)
 
         self.main_drive_folder_id = main_drive_folder_id
+        self.gdrive_folder_base_name = ""
         if musics_folder_path == "main":
-            self.musics_folder_path = os.path.join(os.getcwd(), "musics")
+            self.musics_folder_path = os.path.join(str(self.main_path), "musics")
         else:
             self.musics_folder_path = musics_folder_path
+            self.gdrive_folder_base_name = Path(str(self.musics_folder_path)).name
 
         
         self.folder_manager = FolderManager(self.main_drive_folder_id)
@@ -71,8 +73,12 @@ class Upload:
 
 
     def _create_file_with_all_ids(self, new_files_id):
-        log_folder_path = os.path.join(os.getcwd(), "google-drive/logs")
-        log_name = str(datetime.datetime.today())
+        log_folder_path = os.path.join(str(self.main_path), "assets/gdrive_log")
+        if self.gdrive_folder_base_name:
+            log_name = str(self.gdrive_folder_base_name)
+        else:
+            log_name = str(datetime.datetime.today())
+        
         log_file_text = os.path.join(log_folder_path, log_name+".txt")
         log_file_json = os.path.join(log_folder_path, log_name+".json")
         

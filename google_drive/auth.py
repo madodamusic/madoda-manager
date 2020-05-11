@@ -8,43 +8,44 @@ from google.oauth2 import service_account
 import json
 
 class Auth:
-    def __init__(self, SCOPES, credentials="none"):
+    def __init__(self, SCOPES, credentials):
         self.SCOPES = SCOPES
         self.credentials = credentials
         self.creds = None
         self.is_service_account = False
         
         if self.credentials != "none":
+            print("hhhhh")
             try:
                 credfile = json.load(open(self.credentials, "r"))  
                 if credfile["type"] == "service_account":
                     self.is_service_account = True    
             except:
                 pass
-        else:
-            
-            try:
-                cread_dir = os.listdir("google_drive/accounts")
-                full_accounts = open("google_drive/logs/full_accounts.txt", "r").read().split("\n")
-                print(full_accounts)
-                for cread in cread_dir:
-                    print(cread)
-                    if cread not in full_accounts and cread.endswith(".json"):
-                        print("acount not full")
-                        self.credentials = cread
-                        print(self.credentials)
-                        print(json.load(open("./credentials.json", "r")) )
-                        print("hiiiii")
-                        print(credfile) 
-                        # if credfile["type"] == "service_account":
-                        #     self.is_service_account = True
-                        #     print("ceck type")
+        # else:
+        #     print("sssss")
+        #     try:
+        #         cread_dir = os.listdir("google_drive/accounts")
+        #         full_accounts = open("google_drive/logs/full_accounts.txt", "r").read().split("\n")
+        #         print(full_accounts)
+        #         for cread in cread_dir:
+        #             print(cread)
+        #             if cread not in full_accounts and cread.endswith(".json"):
+        #                 print("acount not full")
+        #                 self.credentials = cread
+        #                 print(self.credentials)
+        #                 print(json.load(open("./credentials.json", "r")) )
+        #                 print("hiiiii")
+        #                 print(credfile) 
+        #                 # if credfile["type"] == "service_account":
+        #                 #     self.is_service_account = True
+        #                 #     print("ceck type")
                         
-                        # break  
-                    else:
-                        print("account full")          
-            except:
-                print("error on find credential")
+        #                 # break  
+        #             else:
+        #                 print("account full")          
+        #     except:
+        #         print("error on find credential")
         
                     
 
