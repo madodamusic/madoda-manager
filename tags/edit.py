@@ -1,7 +1,7 @@
 import eyed3 
 import os
 from pathlib import Path
-from tags_manager import TagsManager
+from .tags_manager import TagsManager
 import json
 class Edit:
     def __init__(self, musics_folder="none", urls_file="none", wp_ids_file="none"):
@@ -95,11 +95,3 @@ class Edit:
         else:
             self.tags_by_file_name()            
 
-if __name__ == "__main__":
-    music_path = "/mnt/x/workspace/madoda-manager/musics/2020_05_1016_49_00_5938678722337"
-    file_url = "/mnt/x/workspace/madoda-manager/assets/wp_download_links/2020_05_1016_49_00_5938678722337.txt"
-    wp_id = "/mnt/x/workspace/madoda-manager/assets/wp_id_logs/2020_05_1016_49_00_5938678722337.json"
-    
-    edt = Edit(music_path, file_url, wp_id)
-    edt.edit()
-    # print(json.dumps("{'benny blanco, Halsey & Khalid – Eastside (official video).mp3': 29}"))

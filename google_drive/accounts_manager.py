@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from googleapiclient.discovery import build
 
-from auth import Auth
+from .auth import Auth
 class AccountsManager:
     def __init__(self):
         self.main_path = Path(__file__).parent.parent.absolute()
@@ -47,13 +47,13 @@ class AccountsManager:
                 print(self.__get_folder_size(music_folder))
                 print(self.__get_folder_size(music_folder) * 6)
                 if ( self.__get_folder_size(music_folder) * 6) < self.__get_gdrive_free_size(ac):
-                    return ac
+                    return str(ac.absolute())
                 else:
                     print("less space in: "+str(ac))
             else:
                 print(str(ac)+" [is full]")
 
-
+    # def get_gdrive_id(name, parent_id):
     # def _upload_file(self, file, parent_id, mimetype= "text/plain"):
     #     file_metadata = {
     #         'name': os.path.basename(file), 

@@ -5,14 +5,14 @@ import os
 from pathlib import Path
 
 
-from auth import Auth
+from .auth import Auth
 
 class FolderManager:
-    def __init__(self, main_drive_folder_id, copy_folders_number = 6):
+    def __init__(self, main_drive_folder_id, credentials, copy_folders_number = 6):
         self.main_path = Path(__file__).parent.parent.absolute()
         self.SCOPES = ['https://www.googleapis.com/auth/drive']
         self.credentials = os.path.join(str(self.main_path), "google_drive/service.json")
-        self.auth = Auth(self.SCOPES)
+        self.auth = Auth(self.SCOPES, self.credentials)
         self.creds = self.auth.getCreds()
 
         self.service = build('drive', 'v3', credentials=self.creds)

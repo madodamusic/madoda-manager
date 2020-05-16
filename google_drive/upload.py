@@ -12,16 +12,24 @@ from apiclient.http import MediaFileUpload
 
 from .auth import Auth
 from .folder_manager import FolderManager
-
+from .accounts_manager import AccountsManager
 class Upload:
     def __init__(self, main_drive_folder_id="12NYDA17jfMGgHJazCIrWwfiZpe1o9w9S", musics_folder_path="main"):
         self.main_path = Path(__file__).parent.parent.absolute()
+        
+        if musics_folder_path == "main":
+            self.musics_folder_path = os.path.join(str(self.main_path), "musics")
+        else:
+            self.musics_folder_path = musics_folder_path
+            self.gdrive_folder_base_name = Path(str(self.musics_folder_path)).name
+        
+        self.accounts_manager = AccountsManager()
         self.SCOPES = ['https://www.googleapis.com/auth/drive']
         try:
-            self.credentials = os.path.join(str(self.main_path), "google_drive/service.json")
+            self.credentials = self.accounts_manager.getCred(self.musics_folder_path)
         except:
             self.credentials = False
-            print("service.json not found")
+            print("credentials not found")
             
         self.auth = Auth(self.SCOPES, self.credentials)
         self.creds = self.auth.getCreds()
@@ -30,14 +38,10 @@ class Upload:
 
         self.main_drive_folder_id = main_drive_folder_id
         self.gdrive_folder_base_name = ""
-        if musics_folder_path == "main":
-            self.musics_folder_path = os.path.join(str(self.main_path), "musics")
-        else:
-            self.musics_folder_path = musics_folder_path
-            self.gdrive_folder_base_name = Path(str(self.musics_folder_path)).name
+       
 
         
-        self.folder_manager = FolderManager(self.main_drive_folder_id)
+        self.folder_manager = FolderManager(self.main_drive_folder_id, self.credentials)
         self.copy_folders_ids = []
         self.new_files_id = {}
 
@@ -128,5 +132,6 @@ class Upload:
         for log_file in log_files:
             self._upload_file(log_file, self.folder_manager.getLogFolderID())
         
+        self.accounts_manager.update_account(self.credentials)
         return log_files[1]
         

@@ -11,4 +11,5 @@ musics/*
 privatekey*
 *.pyc
 .vscode
-assets/*
+assets/*/*.*
+assets/*.*

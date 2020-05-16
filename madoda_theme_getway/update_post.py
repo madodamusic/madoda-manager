@@ -1,18 +1,23 @@
 import json
 import requests
+from pathlib import Path
 class UpdatePost:
     def __init__(self, gdrive_log_path="main", wp_id_path="main"):
+        self.main_path = Path(__file__).parent.parent.absolute()
+
         self.gdrive_log_path = gdrive_log_path
-        rest_auth = json.load(open("./madoda_theme_getway/rest_auth.json", "r"))
+        rest_aut_path = Path(self.main_path) / "assets/madoda_getway/rest_auth.json"
+        rest_auth = json.loads(str(rest_aut_path.read_text()))
+        
         if wp_id_path !="main":
             self.wp_id_path = wp_id_path
         else:
-            self.wp_id_path = "wp_id_log.json"
+            self.wp_id_path = str(Path(self.main_path) / "assets/wp_id_logs/wp_id_log.json")
         
         if gdrive_log_path !="main":
             self.gdrive_log_path = gdrive_log_path
         else:
-            self.gdrive_log_path = "drive_urls.json"
+            self.gdrive_log_path = str(Path(self.main_path) / "assets/gdrive_log/drive_urls.json")
 
         self.user = rest_auth["user"]
         self.pswd = rest_auth["pswd"]

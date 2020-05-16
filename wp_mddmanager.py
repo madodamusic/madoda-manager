@@ -6,7 +6,9 @@ import os
 import array
 from pathlib import Path
 from download_manager.youtube import YtDownload
+from tags.edit import Edit as Tag_edit
 from google_drive.upload import Upload as gdUpload
+from madoda_theme_getway.update_post import UpdatePost as gwUpdatePost
 # from download_manager.download_URL_txt import ManagerURL
 
 class WpMManager:
@@ -53,11 +55,13 @@ class WpMManager:
     
     def main(self):
         urls_file = self.get_links_file()
-        # urls_file = urls_file.replace(".txt", "")
         yt_download = YtDownload(urls_file)
         yt_data = yt_download.mp3()
-        path = Path(urls_file)
-        print(os.path.basename(path).replace(".txt", ""))
+        Tag_edit(yt_data["save_folder"], urls_file, yt_data["wp_id_log"]).edit()
+        gdrive_log = gdUpload(yt_data["save_folder"]).mp3()
+        gwUpdatePost(gdrive_log, yt_data["wp_id_log"])
+        # path = Path(urls_file)
+        # print(os.path.basename(path).replace(".txt", ""))
         
         
 
