@@ -2,16 +2,13 @@ from __future__ import print_function
 import datetime
 from googleapiclient.discovery import build
 import os
-from pathlib import Path
-
 
 from .auth import Auth
 
 class FolderManager:
     def __init__(self, main_drive_folder_id, credentials, copy_folders_number = 6):
-        self.main_path = Path(__file__).parent.parent.absolute()
         self.SCOPES = ['https://www.googleapis.com/auth/drive']
-        self.credentials = os.path.join(str(self.main_path), "google_drive/service.json")
+        self.credentials = credentials
         self.auth = Auth(self.SCOPES, self.credentials)
         self.creds = self.auth.getCreds()
 
@@ -97,7 +94,7 @@ class FolderManager:
             self.log_folder_id = self._ceackFolder("logs", sub_folder_id)
             if not self.log_folder_id:
                 self.log_folder_id =  self.createNewFolder("logs", sub_folder_id)
-    
+
 
     
     def getCopyFolderIds(self):
@@ -106,8 +103,7 @@ class FolderManager:
     def getLogFolderID(self):
         return self.log_folder_id
 
-
 if __name__ == "__main__":
-    fm = FolderManager("kkjkjk")
-    print("auth end")
-    fm.fullAccount()
+    fm = FolderManager("12NYDA17jfMGgHJazCIrWwfiZpe1o9w9S", "./google_drive/accounts/service.json")
+    fm.create()
+    print(fm.getLogFolderID)

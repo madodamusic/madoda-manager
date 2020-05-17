@@ -46,10 +46,16 @@ class YtDownload:
         for num in range(0, 10):
             try:
                 links = self.manager_url.getYoutubeUrls()
+                print(links)
                 for link in links:
+                    if self.manager_url.getNameByTags(link) != -1:
+                        title = self.manager_url.getNameByTags(link)
+                    else:
+                        title = '%(title)s'
+
                     ydl_opts = {
                     'format': 'bestaudio/best',
-                    'outtmpl': str(self.save_folder)+'/%(title)s.%(ext)s',
+                    'outtmpl': str(self.save_folder)+'/'+title+'.%(ext)s',
                     'postprocessors': [{
                         'key': 'FFmpegExtractAudio',
                         'preferredcodec': 'mp3',
@@ -60,7 +66,7 @@ class YtDownload:
                         meta = ydl.extract_info(link, download=True)
                         self.set_WP_ID(link, meta['title'])
                     self.create_WP_ID_log_file()
-                    return {"save_folder":str(self.save_folder), "wp_id_log":self.wp_id_log}
+                return {"save_folder":str(self.save_folder), "wp_id_log":self.wp_id_log}
                 break;
             except youtube_dl.utils.DownloadError:
                 pass
@@ -68,9 +74,9 @@ class YtDownload:
 
 if __name__ == "__main__":
     # print("kkk")
-    ytd = YtDownload("/mnt/x/workspace/2020_10_11_10.txt")
+    ytd = YtDownload("/mnt/x/workspace/madoda-manager/assets/wp_download_links/2020_21_06.txt").mp3()
     # wp_id = ytd.set_WP_ID("https://www.youtube.com/watch?v=BTgCJ-m4u3o", "musica1")
-    print(ytd.save_folder)
+    # print(ytd.save_folder)
     # wp_id = ytd.set_WP_ID("https://www.youtube.com/watch?v=dDwWE1hp8rY", "musica2")
     # print(wp_id)
     # wp_id = ytd.set_WP_ID("https://www.youtube.com/watch?v=kP2lkoqLx8A", "musica2")

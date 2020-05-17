@@ -43,7 +43,7 @@ class AccountsManager:
         accounts_path = Path(os.path.join(str(self.main_path), "google_drive/accounts"))
         full_accounts = self.getFullAccount()
         for ac in accounts_path.iterdir():
-            if str(ac) not in full_accounts:
+            if str(ac) not in full_accounts and str(ac.suffix) == ".json":
                 print(self.__get_folder_size(music_folder))
                 print(self.__get_folder_size(music_folder) * 6)
                 if ( self.__get_folder_size(music_folder) * 6) < self.__get_gdrive_free_size(ac):

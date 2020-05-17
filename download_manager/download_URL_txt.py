@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import json
 class ManagerURL:
     def __init__(self, url_file="main"):
         if url_file == "main":
@@ -77,3 +78,23 @@ class ManagerURL:
                         wp_id = str(url[url_start_index:]).replace(" ", "")
                 
         return wp_id
+
+    def getNameByTags(self, url):
+        all_text = self._generatUrls()
+        name = -1
+        for text in all_text:
+            text = text.replace("'", "\"")
+            text_a = text.split(" ")
+            if(text.find(str(url)) != -1):
+                if(text.find("-t") != -1):
+                    tag_index = text_a.index("-t")+1
+                    if tag_index < len(text_a):
+                        tags = json.loads(text_a[tag_index])
+                        
+                        if tags["Artist"] and tags["Title"]:
+                            return str(tags["Artist"]) +" - " +str(tags["Title"])
+
+                    else:
+                        return -1
+    
+        return name

@@ -15,7 +15,8 @@ class Auth:
         self.is_service_account = False
         
         if self.credentials != "none":
-            print("hhhhh")
+            print("self.crede")
+            print(self.credentials)
             try:
                 credfile = json.load(open(self.credentials, "r"))  
                 if credfile["type"] == "service_account":
@@ -50,8 +51,11 @@ class Auth:
                     
 
     def __auth(self):
-        
-        if self.is_service_account: 
+        if not self.credentials:
+            print("no cread")
+            return False
+        if self.is_service_account:
+            print("is service ac") 
             self.creds = service_account.Credentials.from_service_account_file(self.credentials, scopes=self.SCOPES)
         else:
             # The file token.pickle stores the user's access and refresh tokens, and is

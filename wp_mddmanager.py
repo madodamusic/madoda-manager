@@ -58,8 +58,8 @@ class WpMManager:
         yt_download = YtDownload(urls_file)
         yt_data = yt_download.mp3()
         Tag_edit(yt_data["save_folder"], urls_file, yt_data["wp_id_log"]).edit()
-        gdrive_log = gdUpload(yt_data["save_folder"]).mp3()
-        gwUpdatePost(gdrive_log, yt_data["wp_id_log"])
+        gdrive_log = gdUpload(musics_folder_path=yt_data["save_folder"]).mp3()
+        # gwUpdatePost(gdrive_log, yt_data["wp_id_log"])
         # path = Path(urls_file)
         # print(os.path.basename(path).replace(".txt", ""))
         
