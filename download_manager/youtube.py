@@ -6,6 +6,7 @@ import datetime
 from pathlib import Path
 
 from download_manager.download_URL_txt import ManagerURL
+# from download_URL_txt import ManagerURL
 class YtDownload:
     def __init__(self, url_file="none"):
         self.main_path = Path(__file__).parent.parent.absolute()
@@ -64,10 +65,14 @@ class YtDownload:
                     }
                     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                         meta = ydl.extract_info(link, download=True)
-                        self.set_WP_ID(link, meta['title'])
+                        if title == "%(title)s":
+                            self.set_WP_ID(link, meta['title'])
+                        else:
+                            self.set_WP_ID(link, title)
+                            
                     self.create_WP_ID_log_file()
                 return {"save_folder":str(self.save_folder), "wp_id_log":self.wp_id_log}
-                break;
+                break
             except youtube_dl.utils.DownloadError:
                 pass
         
@@ -75,6 +80,7 @@ class YtDownload:
 if __name__ == "__main__":
     # print("kkk")
     ytd = YtDownload("/mnt/x/workspace/madoda-manager/assets/wp_download_links/2020_21_06.txt").mp3()
+    print(ytd)
     # wp_id = ytd.set_WP_ID("https://www.youtube.com/watch?v=BTgCJ-m4u3o", "musica1")
     # print(ytd.save_folder)
     # wp_id = ytd.set_WP_ID("https://www.youtube.com/watch?v=dDwWE1hp8rY", "musica2")

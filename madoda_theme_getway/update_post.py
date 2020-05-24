@@ -21,26 +21,33 @@ class UpdatePost:
 
         self.user = rest_auth["user"]
         self.pswd = rest_auth["pswd"]
-        self.url = rest_auth["url"]
-        print(self.pswd)
+        self.aut_url = rest_auth["aut_url"]
+        self.up_gdrive_url = rest_auth["update_gdrive_url"]
     
+
     def generat_data(self, post_data):
-        data = {"settings":{
-            "user": self.user,
-            "pswd": self.pswd,
-            "type": "gdrive"
-        }}
-        data.setdefault("posts", post_data)
+        # data = {"settings":{
+        #     "user": self.user,
+        #     "pswd": self.pswd,
+        #     "type": "gdrive"
+        # }}
+        data = {"token": self.get_token(), "posts":post_data}
+        # data.setdefault("posts", post_data)
         return data
 
-    def sendRequest(self, data):
+    def sendRequest(self, url, data):
         # headers = {'content-type': 'application/json'}
-        url = self.url
-        myobj = {'data': data}
-
-        x = requests.post(url, json = myobj)
+        x = requests.post(url, json = data)
         return x
         
+
+    def get_token(self):
+        data = {
+            "user": self.user,
+            "pass": self.pswd
+        }
+        return str(self.sendRequest(self.aut_url, data).text.replace("\"", ""))
+
 
     def update(self):
         wp_ids = json.load(open(self.wp_id_path, "r"))
@@ -55,10 +62,11 @@ class UpdatePost:
             )
         
         data = self.generat_data(post_data)
-        print(self.sendRequest(data))
+        print(self.sendRequest(self.up_gdrive_url, data).content)
 
 
 
 if __name__ == "__main__":
-    up = UpdatePost()
+    up = UpdatePost("/mnt/x/workspace/madoda-manager/assets/gdrive_log/2020_25_06.json", "/mnt/x/workspace/madoda-manager/assets/wp_id_logs/2020_25_06.json")
+    # print(up.get_token())
     up.update()

@@ -5,7 +5,7 @@ class ManagerURL:
     def __init__(self, url_file="main"):
         if url_file == "main":
             self.main_path = Path(__file__).parent.parent.absolute()
-            self.url_file_path = str(sef.main_path)+"/download_URL.txt"
+            self.url_file_path = str(self.main_path)+"/download_URL.txt"
             # self.url_file_path = str(os.path.dirname(absFilePath))+"download_URL.txt"
         else:
             self.url_file_path = url_file
@@ -83,7 +83,7 @@ class ManagerURL:
         all_text = self._generatUrls()
         name = -1
         for text in all_text:
-            text = text.replace("'", "\"")
+            # text = text.replace("'", "\"")
             text_a = text.split(" ")
             if(text.find(str(url)) != -1):
                 if(text.find("-t") != -1):

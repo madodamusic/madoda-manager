@@ -1,7 +1,6 @@
 import sys
 import datetime
 import random
-from app import App
 import os
 import array
 from pathlib import Path
@@ -14,7 +13,7 @@ from madoda_theme_getway.update_post import UpdatePost as gwUpdatePost
 class WpMManager:
     def __init__(self):
         self.args = sys.argv
-        self.app = App()
+        self.main_path =  os.path.dirname(Path(__file__).absolute())
         self.wp_link_file = ""
         self.main()
                         
@@ -27,7 +26,7 @@ class WpMManager:
         
         file_name = str(datetime.datetime.today()).replace(" ", "").replace(":","_").replace("-","_").replace(".","_") + dif_name+".txt"
         
-        wp_links_path = os.path.join(self.app.main_path, "assets/wp_download_links") 
+        wp_links_path = os.path.join(self.main_path, "assets/wp_download_links") 
         self.wp_link_file = os.path.join(wp_links_path, file_name)
         
         file = open(self.wp_link_file, "w")
@@ -59,7 +58,7 @@ class WpMManager:
         yt_data = yt_download.mp3()
         Tag_edit(yt_data["save_folder"], urls_file, yt_data["wp_id_log"]).edit()
         gdrive_log = gdUpload(musics_folder_path=yt_data["save_folder"]).mp3()
-        # gwUpdatePost(gdrive_log, yt_data["wp_id_log"])
+        gwUpdatePost(gdrive_log, yt_data["wp_id_log"]).update()
         # path = Path(urls_file)
         # print(os.path.basename(path).replace(".txt", ""))
         
