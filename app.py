@@ -1,10 +1,8 @@
-import os
-from pathlib import Path
+from flask import Flask, request, abort
 
-class App:
-    def __init__(self):
-        self.main_path =  os.path.dirname(Path(__file__).absolute())
+app = Flask(__name__)
 
-
-app = App()
-print(app.main_path)
+@app.route("/", methods=['GET'])
+def index():
+    return request.remote_addr
+app.run(port=2020)
