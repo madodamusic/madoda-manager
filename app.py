@@ -5,4 +5,4 @@ app = Flask(__name__)
 @app.route("/", methods=['GET'])
 def index():
     return request.remote_addr
-app.run(port=2020)
+# app.run()

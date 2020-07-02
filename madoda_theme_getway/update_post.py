@@ -67,6 +67,6 @@ class UpdatePost:
 
 
 if __name__ == "__main__":
-    up = UpdatePost("/mnt/x/workspace/madoda-manager/assets/gdrive_log/2020_25_06.json", "/mnt/x/workspace/madoda-manager/assets/wp_id_logs/2020_25_06.json")
+    up = UpdatePost("/home/roots/mddr/madoda-manager/assets/gdrive_log/2020_1_06.json", "/home/roots/mddr/madoda-manager/assets/wp_id_logs/2020_1_06.json")
     # print(up.get_token())
     up.update()
