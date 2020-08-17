@@ -62,15 +62,14 @@ class FolderManager(Gdive):
             
     def create(self, folders):
         base_parent_folder_id, base_folder_id = self.create_gdrive_folder_from_date_Y_M(self.main_drive_folder_id)
-        for index, folder in enumerate(folders):
-            parent_id = folders[index -1]
-            
-            if index == 0:parent_id =  base_folder_id
-               
+        parent_id = base_folder_id
+        for index, folder in enumerate(folders):                           
             content_folder_id = self._ceackFolder(folder, parent_id)
             if not content_folder_id:
                 content_folder_id = self.createNewFolder(folder, parent_id)
             
+            parent_id = content_folder_id
+
             self._gdrive_path_folders_ids.append(content_folder_id)
             self._content_folder_id = content_folder_id
         
