@@ -135,7 +135,7 @@ if __name__ == "__main__":
         creds = auth.getCreds()
         service = build('drive', 'v3', credentials=creds)
         fm = FolderManager(service)
-        fm.create("madoda", "manager")
+        fm.create(("madoda", "manager"))
 
         print("base log folder id: ",fm.base_log_folder_id)
         print("log folder id: ",fm.log_folder_id)
