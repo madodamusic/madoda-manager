@@ -5,6 +5,7 @@ from gdrive import Gdive
 from pathlib import Path
 from auth import Auth
 from accounts_manager import AccountsManager
+from googleapiclient.discovery import build
 
 class FolderManager(Gdive):
     def __init__(self, gdrive_service):
