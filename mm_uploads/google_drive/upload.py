@@ -30,7 +30,7 @@ class GdriveUpload(Gdive):
 
     def __upload_mp3_multi_temes(self, file_name, parent_id="root", n=6):
         new_file_id = []
-        if file_name.endswith(".mp3"):
+        if str(file_name).endswith(".mp3"):
             for num in range(n):
                 upload_file = os.path.join(self.musics_folder_path, file_name)
                 file_metadata = {
