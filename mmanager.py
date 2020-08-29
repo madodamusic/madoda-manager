@@ -3,7 +3,7 @@ from mm_uploads.google_drive.upload import GdriveUpload
 import sys
 class MMangaer:
     def __init__(self):
-        self.m_contents = [{"download_url":"https://www.youtube.com/watch?v=z29nI8RQV0U&list=RDz29nI8RQV0U","gdrive_upload_times":5, "post_id":22, "tags":{"artist": "Chris Brown", "title":"Don't Judge Me"} }]
+        self.m_contents = [{"download_url":"https://www.youtube.com/watch?v=z29nI8RQV0U","gdrive_upload_times":5, "post_id":22, "tags":{"artist": "Chris Brown", "title":"Don't Judge Me"} }]
     
     
     def download_and_upload_to_gdrive(self):

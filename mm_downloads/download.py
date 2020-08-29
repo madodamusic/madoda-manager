@@ -14,6 +14,8 @@ class Download:
         if not Path(str(self.save_folder)).exists():
             Path(str(self.save_folder)).mkdir()
 
+
+
     def getUrlType(self, url):
         url = str(url).lower().replace(" ", "")
         sites = {"youtube":"https://www.youtube.com/"}
@@ -63,6 +65,8 @@ class Download:
                    self.youtubeDl((index, content))
             else:
                 print("file {} exite".format(filename))
+        
+        return self.m_contents
             
 
 if __name__ == "__main__":

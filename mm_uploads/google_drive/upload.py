@@ -11,7 +11,7 @@ from google.auth.transport.requests import Request
 from apiclient.http import MediaFileUpload
 
 from .auth import Auth
-from .folder_manager import FolderManager, ServiceManager
+from .gdrive_manager import FolderManager, ServiceManager
 from .accounts_manager import AccountsManager
 from .gdrive import Gdive
 
@@ -110,9 +110,6 @@ class GdriveUpload(Gdive):
         else:
             return ("unknown")
         
-
-
-
 
 
     def mp3(self):

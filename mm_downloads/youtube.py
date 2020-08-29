@@ -10,13 +10,11 @@ class YoutubeDownload:
    
     def mp3(self, yt_url, outpname= None):
         if outpname:
-            # return Path(str(outpname)).with_suffix(".mp3")
             save_folder = Path(str(outpname)).parent
             if save_folder.exists():
                 self.save_folder = save_folder
             title = Path(str(outpname)).name
         else:
-            # return "no output"
             title = '%(title)s'
   
         for num in range(0, 5):
@@ -31,12 +29,12 @@ class YoutubeDownload:
                 }]
                 }
                 
-                with youtube_dl.YoutubeDL() as ydl:
+                with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                     meta = ydl.extract_info(yt_url, download=True)
-                    # if title == "%(title)s":
-                    #     return Path(self.save_folder) / Path(meta['title'])
-                    # else:
-                    #     return Path( str(outpname) ).with_suffix(".mp3")
+                    if title == "%(title)s":
+                        return Path(self.save_folder) / Path(meta['title'])
+                    else:
+                        return Path( str(outpname) ).with_suffix(".mp3")
                             
                 break
             except youtube_dl.utils.DownloadError:

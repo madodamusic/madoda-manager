@@ -129,7 +129,7 @@ class FolderManager(Gdive):
 class ServiceManager():
     def __init__(self):
         self.__accounts_manager = AccountsManager()
-        self.__credential_file = self.accounts_manager.getCredFile()
+        self.__credential_file = self.__accounts_manager.getCredFile()
 
 
     def build_gdrive_service(self, SCOPES):
