@@ -104,11 +104,7 @@ class FolderManager(Gdive):
         parent_folder_id, content_folder_id = self.create_gdrive_folder_from_date_Y_M(self.__base_log_folder_id)
         self.__log_folder_id = content_folder_id
         return content_folder_id
-        
 
-
-
-                
     @property
     def content_folder_id(self):
         return self._content_folder_id
@@ -124,6 +120,45 @@ class FolderManager(Gdive):
     @property
     def base_log_folder_id(self):
         return self.__base_log_folder_id
+        
+
+
+
+
+
+class ServiceManager():
+    def __init__(self):
+        self.__accounts_manager = AccountsManager()
+        self.__credential_file = self.accounts_manager.getCredFile()
+
+
+    def build_gdrive_service(self, SCOPES):
+        self.auth = Auth(SCOPES, self.__credential_file)
+        self.creds = self.auth.getCreds()
+
+        self.service = build('drive', 'v3', credentials=self.creds)
+        return self.service
+
+
+
+    def build_new_gdrive_service(self, filename,  gdrive_upload_times):
+        credential_file_with_no_space = [self.__credential_file]
+        while True:
+            self.__credential_file = self.accounts_manager.getCredFile(credential_file_with_no_space)
+            if not self.__credential_file:
+                return False
+            
+            self.creds = Auth(self.SCOPES, self.__credential_file).getCreds()
+            self.service = build('drive', 'v3', credentials=self.creds)
+            
+            if self.gdrive_have_space_to_upload_file(self.service, filename, gdrive_upload_times):
+                return self.service
+            else:
+                credential_file_with_no_space.append[self.__credential_file]
+
+    @property
+    def credential_file(self):
+        return self.__credential_file
         
 
 if __name__ == "__main__":

@@ -67,7 +67,7 @@ class Download:
 
 if __name__ == "__main__":
     content_links = [{"tags":{"artist": "zd", "title":"tb"}, "post_id": 21, "download_url":"https://www.youtube.com/voikvjo"},
-        {"artist": "jry", "title":"nju", "filename":"X:\\workspace\\madoda-manager\\server.py" ,"post_id": 21, "download_links":["youtube.com/hgkjyuy"]}]
+        {"artist": "jry", "title":"nju", "gdrive_upload_times":8, "filename":"X:\\workspace\\madoda-manager\\server.py" ,"post_id": 21, "download_links":["youtube.com/hgkjyuy"]}]
     dw = Download(content_links)
     # print( dw.getUrlType(" https://www.Youtube.com/") )
     # print(content_links[0], "\n")

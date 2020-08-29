@@ -1,6 +1,13 @@
 from pathlib import Path
 import json
 import os
+from googleapiclient.discovery import build
+
+
+from accounts_manager import AccountsManager
+# from folder_manager import FolderManagers
+from auth import Auth
+
 class Gdive:
     def __init__(self):
         self.main_path = Path(__file__).parent.parent.parent.absolute()
@@ -8,6 +15,8 @@ class Gdive:
         self.__main_conf_key_name = "google_drive"
         self.__conf = {}
         self.__init_conf()
+
+
 
     
     def __init_conf(self):
@@ -37,13 +46,29 @@ class Gdive:
             self.__conf.setdefault(key, value)
 
         self.__update_main_conf()
+    
+
+    def get_gdrive_free_size(self, service):
+        res = service.about().get(fields = "user, storageQuota").execute()
+        free_space = int(res["storageQuota"]["limit"]) - int(res["storageQuota"]["usage"])
+
+        return free_space
+    
+
+    def gdrive_have_space_to_upload_file(self, service, file, n_times=6):
+        file_size = os.path.getsize(str(file))
+        if ( file_size * n_times) < self.get_gdrive_free_size(service):
+            return True
+        else:
+            return False
+
+
+
+    
+    
+    
 
     @property
     def conf(self):
         return self.__conf
 
-
-
-gd = Gdive()
-gd.update_conf("backup_id", "11111111")
-# print(gd.conf)

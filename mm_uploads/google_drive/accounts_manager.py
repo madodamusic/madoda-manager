@@ -10,7 +10,6 @@ class AccountsManager:
         self.client_ids_path = Path(os.path.join(str(self.main_path), "assets/google_drive/client_ids"))
         self.full_accounts_path = Path(os.path.join(str(self.main_path), "assets/google_drive/full_accounts.txt"))
         self.__is_service_account = False
-        print(self.service_accounts_path)
     
     def getFullAccount(self):
         if self.full_accounts_path.exists():
@@ -53,17 +52,12 @@ class AccountsManager:
         return free_space
 
 
-    def getCred(self, folder_file_ptah):
+    def getCredFile(self, not_those=[]):
         full_accounts = self.getFullAccount()
-        if Path(str(folder_file_ptah)).is_file():
-            file_size = self.__get_file_size(folder_file_ptah)
-        else:
-            file_size = self.__get_folder_size(folder_file_ptah)
-        
         if self.client_ids_path.exists():
             for ac in self.client_ids_path.iterdir():
                 if str(ac) not in full_accounts and str(ac.suffix) == ".json":
-                    if ( file_size * 6) < self.__get_gdrive_free_size(ac):
+                    if str(ac) not in not_those:
                         return str( ac.absolute() )
                     else:
                         print("less space in: "+str(ac))
@@ -74,14 +68,14 @@ class AccountsManager:
         if self.service_accounts_path.exists():
             for ac in self.service_accounts_path.iterdir():
                 if str(ac) not in full_accounts and str(ac.suffix) == ".json":
-                    if ( file_size * 6) < self.__get_gdrive_free_size(ac, is_service_account=True):
+                    if str(ac) not in not_those:
                         return str( ac.absolute() )
                     else:
                         print("less space in: "+str(ac))
                 else:
                     print(str(ac)+" [IS FULL]")
         
-            return False
+        return False
 
     
     def getIsServiceAccount(self):

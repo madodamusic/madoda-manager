@@ -11,46 +11,27 @@ from google.auth.transport.requests import Request
 from apiclient.http import MediaFileUpload
 
 from .auth import Auth
-from .folder_manager import FolderManager
+from .folder_manager import FolderManager, ServiceManager
 from .accounts_manager import AccountsManager
-class Upload:
-    def __init__(self, m_content, main_drive_folder_id="12NYDA17jfMGgHJazCIrWwfiZpe1o9w9S"):
-        self.m_contents = m_content
-        self.main_path = Path(__file__).parent.parent.absolute()
-        
-        if musics_folder_path == "main":
-            self.musics_folder_path = os.path.join(str(self.main_path), "musics")
-        else:
-            self.musics_folder_path = musics_folder_path
-            self.gdrive_folder_base_name = Path(str(self.musics_folder_path)).name
-        
-        self.accounts_manager = AccountsManager()
-        self.SCOPES = ['https://www.googleapis.com/auth/drive']
-        try:
-            self.credentials = self.accounts_manager.getCred(self.musics_folder_path)
-        except:
-            self.credentials = False
-            print("credentials not found")
-            
-        self.auth = Auth(self.SCOPES, self.credentials)
-        self.creds = self.auth.getCreds()
+from .gdrive import Gdive
 
-        self.service = build('drive', 'v3', credentials=self.creds)
+class GdriveUpload(Gdive):
+    def __init__(self, m_contents):
+        super().__init__()
+        self.m_contents = m_contents
+        SCOPES = ['https://www.googleapis.com/auth/drive']
 
-        self.main_drive_folder_id = main_drive_folder_id
-        self.gdrive_folder_base_name = ""
+        self.sm = ServiceManager()
+        self.service = self.sm.build_gdrive_service(SCOPES)
        
-
-        
-        self.folder_manager = FolderManager(self.main_drive_folder_id, self.credentials)
         self.copy_folders_ids = []
         self.new_files_id = {}
 
 
-    def _upload_multi_mp3(self, file_name, parent_ids):
+    def __upload_mp3_multi_temes(self, file_name, parent_id="root", n=6):
         new_file_id = []
         if file_name.endswith(".mp3"):
-            for parent_id in parent_ids:
+            for num in range(n):
                 upload_file = os.path.join(self.musics_folder_path, file_name)
                 file_metadata = {
                     'name': file_name, 
@@ -121,18 +102,35 @@ class Upload:
         log_json.close()
         return [log_file_text, log_file_json]
     
+    def get_folders_name_by_m_content_tags(self, m_content_tags):
+        if (m_content_tags.get("artist", 0) and m_content_tags.get("title", 0)):
+            main_folder = m_content_tags.get("artist")
+            sec_folder = m_content_tags.get("title")
+            return (main_folder, sec_folder)
+        else:
+            return ("unknown")
+        
+
+
+
+
+
     def mp3(self):
-        self.new_files_id = {}
-        self.folder_manager.create()
-        copy_folders_ids = self.folder_manager.getCopyFolderIds()
-        files = os.listdir(self.musics_folder_path)
-        for file in files:
-            self._upload_multi_mp3(file, copy_folders_ids)
+        for index, content in enumerate(self.m_contents):
+            filename = Path(content.get("filename", 0))
+            if Path(filename).exists() and filename:
+                gdrive_upload_times = content.get("gdrive_upload_times", 6)
+                if not self.gdrive_have_space_to_upload_file(self.service, filename, gdrive_upload_times):
+                   if not self.sm.build_new_gdrive_service(filename, gdrive_upload_times):
+                       continue
+                folders = self.get_folders_name_by_m_content_tags(content.get("tags", {}))
+                gdrive_folder_id = FolderManager(self.service).create(folders)
+                gdrive_ids = self.__upload_mp3_multi_temes(filename, gdrive_folder_id, gdrive_upload_times)
+                self.m_contents[index].setdefault("gdrive_ids", gdrive_ids)
         
-        log_files = self._create_file_with_all_ids(self.new_files_id)
-        for log_file in log_files:
-            self._upload_file(log_file, self.folder_manager.getLogFolderID())
+        return self.m_contents
+               
+    
         
-        self.accounts_manager.update_account(self.credentials)
-        return log_files[1]
-        
+if __name__ == "__main__":
+    up = GdriveUpload()

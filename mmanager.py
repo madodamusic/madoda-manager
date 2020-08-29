@@ -1,16 +1,17 @@
-# from mm_downloads import youtube as mm_youtube
+from mm_downloads.download import Download
+from mm_uploads.google_drive.upload import GdriveUpload
 import sys
 class MMangaer:
     def __init__(self):
-        self.content_links = [{"artist": "zd", "title":"tb", "post_id": 21, "download_links":["youtube.com/voikvjo"]},
-        {"artist": "jry", "title":"nju", "post_id": 21, "download_links":["youtube.com/hgkjyuy"]}]
+        self.m_contents = [{"download_url":"https://www.youtube.com/watch?v=z29nI8RQV0U&list=RDz29nI8RQV0U","gdrive_upload_times":5, "post_id":22, "tags":{"artist": "Chris Brown", "title":"Don't Judge Me"} }]
+    
+    
+    def download_and_upload_to_gdrive(self):
+        self.m_contents = Download(self.m_contents).main()
+        self.m_contents = GdriveUpload(self.m_contents).mp3()
+        print(self.m_contents)
 
-    def download_upload(self):
-        pass
-n = 5
 
-
-def cc(*n):
-    t = 6
-
-print(n)
+if __name__ == "__main__":
+    mm = MMangaer()
+    mm.download_and_upload_to_gdrive()
