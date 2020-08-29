@@ -42,6 +42,6 @@ class YoutubeDownload:
 
 if __name__ == "__main__":
     yt = YoutubeDownload()
-    links = ["https://www.youtube.com/watch?v=Jw_IPZ8AcMQ","https://www.youtube.com/watch?v=kTCIEXur3Do","https://www.youtube.com/watch?v=Pu9LJ98CBs4"]
+    links = ["https://www.youtube.com/watch?v=m0mC3dcAOFU"]
     for lin in links:
         print(yt.mp3(lin))
