@@ -32,12 +32,11 @@ class GdriveUpload(Gdive):
         new_file_id = []
         if str(file_name).endswith(".mp3"):
             for num in range(n):
-                upload_file = os.path.join(self.musics_folder_path, file_name)
                 file_metadata = {
                     'name': file_name, 
                     "parents": [parent_id]
                 }
-                media = MediaFileUpload(upload_file, mimetype='audio/mp3')
+                media = MediaFileUpload(file_name, mimetype='audio/mp3')
                 Dfile = self.service.files().create(body=file_metadata, media_body=media, fields='id').execute()
                 new_file_id.append(Dfile.get('id'))
 
