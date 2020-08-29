@@ -1,7 +1,7 @@
 from pathlib import Path
 from datetime import datetime
 
-from youtube import YoutubeDownload
+from .youtube import YoutubeDownload
 class Download:
     def __init__(self, m_content):
         self.m_contents = m_content

@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from googleapiclient.discovery import build
 
-from auth import Auth
+from .auth import Auth
 class AccountsManager:
     def __init__(self):
         self.main_path = Path(__file__).parent.parent.parent.absolute()

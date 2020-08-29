@@ -4,9 +4,9 @@ import os
 from googleapiclient.discovery import build
 
 
-from accounts_manager import AccountsManager
+from .accounts_manager import AccountsManager
 # from folder_manager import FolderManagers
-from auth import Auth
+from .auth import Auth
 
 class Gdive:
     def __init__(self):

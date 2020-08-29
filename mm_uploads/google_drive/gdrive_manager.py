@@ -1,10 +1,10 @@
 from __future__ import print_function
 import datetime
 import os
-from gdrive import Gdive
 from pathlib import Path
-from auth import Auth
-from accounts_manager import AccountsManager
+from .gdrive import Gdive
+from .auth import Auth
+from .accounts_manager import AccountsManager
 from googleapiclient.discovery import build
 
 class FolderManager(Gdive):
