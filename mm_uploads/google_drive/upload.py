@@ -33,14 +33,14 @@ class GdriveUpload(Gdive):
         if str(file_name).endswith(".mp3"):
             for num in range(n):
                 file_metadata = {
-                    'name': file_name, 
+                    'name': str(file_name.name), 
                     "parents": [parent_id]
                 }
-                media = MediaFileUpload(file_name, mimetype='audio/mp3')
+                media = MediaFileUpload(str(file_name), mimetype='audio/mp3')
                 Dfile = self.service.files().create(body=file_metadata, media_body=media, fields='id').execute()
                 new_file_id.append(Dfile.get('id'))
 
-            self.new_files_id.setdefault(file_name, new_file_id)
+            self.new_files_id.setdefault(str(file_name), new_file_id)
 
             return self.new_files_id
         else:
