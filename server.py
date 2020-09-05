@@ -32,9 +32,5 @@ def upload():
     # print(files)
     # print(dir(request.files[f]))
     return "bb"
-# @app.teardown_request
-# def show_teardown(exception):
-#     print('after with block')
-#     time.sleep(10)
-#     print("end")
+
 
