@@ -8,7 +8,7 @@ install all requirements
 ### setup the app
 #### copy google drive credentials to 
     ./assets/google_drive/client_ids if is client ids and 
-    ./assets/google_drive/service accounts if service accounts 
+    ./assets/google_drive/service_accounts if service accounts 
 (you can use both but client_id has priority) 
 
 #### copy youtube credentials to
