@@ -31,9 +31,6 @@ class YoutubeDownload:
                 
                 with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                     meta = ydl.extract_info(yt_url, download=False)
-                    # media_url = meta['formats'][-1]['url']
-                    med = [if m["ext"] == "webm":m["url"]  for m in meta["formats"]]
-                    print(med)
                     if title == "%(title)s":
                         return Path(self.save_folder) / Path(meta['title'])
                     else:

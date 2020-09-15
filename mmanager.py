@@ -9,9 +9,9 @@ class MMangaer:
     def download_and_upload_to_gdrive(self):
         self.m_contents = Download(self.m_contents).main()
         self.m_contents = GdriveUpload(self.m_contents).mp3()
-        print(self.m_contents)
+        return self.m_contents
 
 
 if __name__ == "__main__":
     mm = MMangaer()
-    mm.download_and_upload_to_gdrive()
+    print(mm.download_and_upload_to_gdrive())

@@ -24,13 +24,15 @@ def hello():
 def upload():
     for f in request.files:
         if request.files[f].mimetype == "audio/mpeg":
-        request.files[f].save("./az.mp3")
-        print(request.files[f].mimetype)
-        print(request.files[f].name)
-        print(request.files[f].filename)
-        print(request.files[f].content_type)
+            # request.files[f].save("./az.mp3")
+            print(request.files[f].mimetype)
+            print(request.files[f].name)
+            print(request.files[f].filename)
+            print(request.files[f].headers)
     # print(files)
-    # print(dir(request.files[f]))
+        print(dir(request.files[f]))
     return "bb"
 
 
+if __name__ == "__main__":
+    app.run(port=7000)

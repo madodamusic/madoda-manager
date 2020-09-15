@@ -1,6 +1,7 @@
 from uuid import uuid4
 from pathlib import Path
 import json
+import os
 
 def main():
     print("\n","=" * 20, "\tMADODA MANAGER GONF", "=" * 30,sep="\n", end="\n\n")
@@ -12,6 +13,7 @@ def main():
     
     print("","="*10+"| google drive conf |"+"="*20,gdrive_conf, sep="\n", end="\n\n")
     print("","="*10+"| Auth conf |"+"="*20,keys, sep="\n", end="\n\n")
+    os.environ["mm_main_path"] = str(Path(__file__).absolute())
 
 
 class Setup():
