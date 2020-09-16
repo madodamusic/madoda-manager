@@ -8,3 +8,7 @@ musics/*
 privatekey*
 *.pyc
 .vscode
+*conf.json
+___mm_*
+*.mp3
+*.mp4
