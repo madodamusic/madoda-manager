@@ -27,8 +27,9 @@ def youtube():
 @app.route("/upload_file", methods=["POST", "PUT"])
 def upload_file():
     def is_allowed_file(filename):
-        ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
-        return True
+        ALLOWED_EXTENSIONS = ('.txt', '.pdf', '.png', '.jpg', '.jpeg', '.gif')
+        if str(Path(filename).stem) in ALLOWED_EXTENSIONS:
+            return True
 
     files = request.files
     if not files:
