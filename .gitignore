@@ -12,3 +12,25 @@ privatekey*
 *.pyc
 .vscode
 assets/*
+Thumbs.db
+.DS_Store
+.vscode/
+__pycache__/
+*.py[cod]
+*$py.class
+pip-log.txt
+pip-delete-this-directory.txt
+.python-version
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+#madoda manager
+*.mp3
+*.mp4
+*___mm_*
+*token_pickle*
+*conf.json
