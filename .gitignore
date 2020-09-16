@@ -34,3 +34,4 @@ venv.bak/
 *___mm_*
 *token_pickle*
 *conf.json
+.vscode
